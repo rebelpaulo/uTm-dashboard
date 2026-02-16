@@ -353,15 +353,41 @@
     </div>
 
     <script>
-        // Dados completos por UTM
-        const utmData = {
-            ig_social_link: { name: 'Instagram Link Bio', sales: 53450, tickets: 1927, orders: 880, color: '#e4405f' },
-            meta_paid_ad: { name: 'Meta Ads', sales: 870, tickets: 11, orders: 3, color: '#1877f2' },
-            ig_paid: { name: 'IG Paid', sales: 210, tickets: 7, orders: 1, color: '#f77737' },
-            meta_dark: { name: 'Meta Dark Posts', sales: 390, tickets: 13, orders: 5, color: '#4ade80' }
+        // Dados completos por período
+        const periodData = {
+            all: { sales: 54920, tickets: 1971, orders: 896, avg: 28 },
+            last_day: { sales: 1080, tickets: 36, orders: 12, avg: 30 },
+            last_week: { sales: 9380, tickets: 330, orders: 145, avg: 28 },
+            last_month: { sales: 35420, tickets: 1245, orders: 520, avg: 28 }
         };
 
+        let currentPeriod = 'all';
+
+        // Dados completos por UTM (percentagens para calcular por período)
+        const utmPercentages = {
+            ig_social_link: { name: 'Instagram Link Bio', salesPct: 0.973, ticketsPct: 0.978, ordersPct: 0.982, color: '#e4405f' },
+            meta_paid_ad: { name: 'Meta Ads', salesPct: 0.016, ticketsPct: 0.006, ordersPct: 0.003, color: '#1877f2' },
+            ig_paid: { name: 'IG Paid', salesPct: 0.004, ticketsPct: 0.004, ordersPct: 0.001, color: '#f77737' },
+            meta_dark: { name: 'Meta Dark Posts', salesPct: 0.007, ticketsPct: 0.007, ordersPct: 0.006, color: '#4ade80' }
+        };
+
+        function getUtmDataForPeriod(period) {
+            const p = periodData[period];
+            const result = {};
+            for (const [key, utm] of Object.entries(utmPercentages)) {
+                result[key] = {
+                    name: utm.name,
+                    sales: Math.round(p.sales * utm.salesPct),
+                    tickets: Math.round(p.tickets * utm.ticketsPct),
+                    orders: Math.round(p.orders * utm.ordersPct),
+                    color: utm.color
+                };
+            }
+            return result;
+        }
+
         let selectedUtms = ['ig_social_link', 'meta_paid_ad', 'ig_paid', 'meta_dark'];
+        let currentUtmData = getUtmDataForPeriod('all');
 
         // Gráficos
         const dailyCtx = document.getElementById('dailyChart').getContext('2d');
@@ -413,6 +439,13 @@
             event.target.classList.add('active');
             document.getElementById('dateRangePicker').classList.remove('active');
             
+            currentPeriod = period;
+            currentUtmData = getUtmDataForPeriod(period);
+            
+            // Atualizar métricas
+            updateMetrics();
+            
+            // Atualizar subtítulo
             const labels = {
                 all: 'Todo o período',
                 last_day: 'Últimas 24 horas',
@@ -420,6 +453,26 @@
                 last_month: 'Últimos 30 dias'
             };
             document.getElementById('salesChange').textContent = labels[period];
+        }
+
+        function updateMetrics() {
+            let totalSales = 0, totalTickets = 0, totalOrders = 0;
+            selectedUtms.forEach(utm => {
+                totalSales += currentUtmData[utm].sales;
+                totalTickets += currentUtmData[utm].tickets;
+                totalOrders += currentUtmData[utm].orders;
+            });
+            
+            document.getElementById('totalSales').textContent = '€' + totalSales.toLocaleString();
+            document.getElementById('totalTickets').textContent = totalTickets.toLocaleString();
+            document.getElementById('totalOrders').textContent = totalOrders.toLocaleString();
+            document.getElementById('avgTicket').textContent = '€' + (totalTickets > 0 ? Math.round(totalSales / totalTickets) : 0);
+            
+            // Atualizar gráfico UTM
+            utmChart.data.labels = selectedUtms.map(u => currentUtmData[u].name);
+            utmChart.data.datasets[0].data = selectedUtms.map(u => currentUtmData[u].sales);
+            utmChart.data.datasets[0].backgroundColor = selectedUtms.map(u => currentUtmData[u].color);
+            utmChart.update();
         }
 
         function toggleDateRange() {
@@ -451,24 +504,7 @@
                 }
             });
             
-            // Atualizar métricas
-            let totalSales = 0, totalTickets = 0, totalOrders = 0;
-            selectedUtms.forEach(utm => {
-                totalSales += utmData[utm].sales;
-                totalTickets += utmData[utm].tickets;
-                totalOrders += utmData[utm].orders;
-            });
-            
-            document.getElementById('totalSales').textContent = '€' + totalSales.toLocaleString();
-            document.getElementById('totalTickets').textContent = totalTickets.toLocaleString();
-            document.getElementById('totalOrders').textContent = totalOrders.toLocaleString();
-            document.getElementById('avgTicket').textContent = '€' + Math.round(totalSales / totalTickets);
-            
-            // Atualizar gráfico UTM
-            utmChart.data.labels = selectedUtms.map(u => utmData[u].name);
-            utmChart.data.datasets[0].data = selectedUtms.map(u => utmData[u].sales);
-            utmChart.data.datasets[0].backgroundColor = selectedUtms.map(u => utmData[u].color);
-            utmChart.update();
+            updateMetrics();
             
             // Atualizar tabela
             document.querySelectorAll('#utmTableBody tr').forEach(row => {
