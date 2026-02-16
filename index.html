@@ -30,7 +30,7 @@
             gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .filter-btn {
             background: rgba(255,255,255,0.1);
@@ -49,6 +49,58 @@
         .filter-btn.active {
             background: #e94560;
             border-color: #e94560;
+        }
+        
+        /* Seletor de UTM */
+        .utm-selector {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .utm-selector h3 {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #888;
+        }
+        .utm-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .utm-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .utm-checkbox:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .utm-checkbox.selected {
+            border-color: #e94560;
+            background: rgba(233, 69, 96, 0.2);
+        }
+        .utm-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #e94560;
+        }
+        .utm-checkbox label {
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .utm-checkbox .value {
+            font-size: 0.75rem;
+            color: #888;
+            margin-left: 5px;
         }
         
         .grid {
@@ -126,6 +178,7 @@
             font-weight: 600;
         }
         .badge-ig { background: #e4405f; color: white; }
+        .badge-meta { background: #1877f2; color: white; }
         .date-range-picker {
             background: rgba(255,255,255,0.05);
             border-radius: 16px;
@@ -145,6 +198,21 @@
             border-radius: 8px;
             margin: 0 10px;
         }
+        .select-all-btn {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            color: #e94560;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            transition: all 0.2s;
+        }
+        .select-all-btn:hover {
+            background: #e94560;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -152,7 +220,7 @@
         <header>
             <h1>🎉 Revenge House Party</h1>
             <p class="subtitle">Dashboard de Vendas & Analytics</p>
-            <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">Atualizado: 17/02/2026 04:15</p>
+            <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">Atualizado: 17/02/2026</p>
         </header>
 
         <!-- Filtros de Data -->
@@ -171,16 +239,43 @@
             <button class="filter-btn" onclick="applyDateRange()">Aplicar</button>
         </div>
 
+        <!-- Seletor de UTM com Checkboxes -->
+        <div class="utm-selector">
+            <h3>🎯 Filtrar por Fonte (UTM)</h3>
+            <button class="select-all-btn" onclick="toggleAllUtms()">✓ Selecionar Todos</button>
+            <div class="utm-checkboxes" id="utmCheckboxes">
+                <div class="utm-checkbox selected" data-utm="ig_social_link">
+                    <input type="checkbox" id="utm1" checked onchange="updateUtmFilter()">
+                    <label for="utm1">Instagram Link Bio</label>
+                    <span class="value">€53,450</span>
+                </div>
+                <div class="utm-checkbox selected" data-utm="meta_paid_ad">
+                    <input type="checkbox" id="utm2" checked onchange="updateUtmFilter()">
+                    <label for="utm2">Meta Ads</label>
+                    <span class="value">€870</span>
+                </div>
+                <div class="utm-checkbox selected" data-utm="ig_paid">
+                    <input type="checkbox" id="utm3" checked onchange="updateUtmFilter()">
+                    <label for="utm3">IG Paid</label>
+                    <span class="value">€210</span>
+                </div>
+                <div class="utm-checkbox selected" data-utm="meta_dark">
+                    <input type="checkbox" id="utm4" checked onchange="updateUtmFilter()">
+                    <label for="utm4">Meta Dark Posts</label>
+                    <span class="value">€390</span>
+                </div>
+            </div>
+        </div>
+
         <div class="grid">
             <div class="card">
                 <h3>💰 Total de Vendas</h3>
                 <div class="value" id="totalSales">€54,920</div>
-                <div class="change" id="salesChange">Período selecionado</div>
+                <div class="change" id="salesChange">UTMs selecionados</div>
             </div>
             <div class="card">
                 <h3>🎫 Bilhetes Vendidos</h3>
                 <div class="value" id="totalTickets">1,971</div>
-                <div class="change" id="ticketsChange"></div>
             </div>
             <div class="card">
                 <h3>💳 Ticket Médio</h3>
@@ -217,24 +312,25 @@
                     </tr>
                 </thead>
                 <tbody id="utmTableBody">
-                    <tr><td><span class="badge badge-ig">ig</span></td><td>social</td><td>link_in_bio</td><td>880</td><td>€53,450</td><td>1,927</td></tr>
-                    <tr><td><span class="badge badge-ig">meta</span></td><td>paid_social</td><td>{{ad.name}}</td><td>3</td><td>€480</td><td>11</td></tr>
-                    <tr><td><span class="badge badge-ig">ig</span></td><td>paid</td><td>120240872431290564</td><td>1</td><td>€210</td><td>7</td></tr>
-                    <tr><td><span class="badge badge-ig">meta</span></td><td>paid_social</td><td>AD - Dark | Eu e meus amigos</td><td>3</td><td>€210</td><td>7</td></tr>
-                    <tr><td><span class="badge badge-ig">meta</span></td><td>paid_social</td><td>AD - Dark | Vídeo influ</td><td>2</td><td>€180</td><td>6</td></tr>
+                    <tr data-utm="ig_social_link"><td><span class="badge badge-ig">ig</span></td><td>social</td><td>link_in_bio</td><td>880</td><td>€53,450</td><td>1,927</td></tr>
+                    <tr data-utm="meta_paid_ad"><td><span class="badge badge-meta">meta</span></td><td>paid_social</td><td>Ads</td><td>3</td><td>€480</td><td>11</td></tr>
+                    <tr data-utm="ig_paid"><td><span class="badge badge-ig">ig</span></td><td>paid</td><td>120240872431290564</td><td>1</td><td>€210</td><td>7</td></tr>
+                    <tr data-utm="meta_dark"><td><span class="badge badge-meta">meta</span></td><td>paid_social</td><td>Dark Posts</td><td>5</td><td>€390</td><td>13</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // Dados completos
-        const allData = {
-            all: { sales: 54920, tickets: 1971, orders: 896, avg: 28 },
-            last_day: { sales: 1080, tickets: 36, orders: 12, avg: 30 },
-            last_week: { sales: 9380, tickets: 330, orders: 145, avg: 28 },
-            last_month: { sales: 35420, tickets: 1245, orders: 520, avg: 28 }
+        // Dados completos por UTM
+        const utmData = {
+            ig_social_link: { name: 'Instagram Link Bio', sales: 53450, tickets: 1927, orders: 880, color: '#e4405f' },
+            meta_paid_ad: { name: 'Meta Ads', sales: 870, tickets: 11, orders: 3, color: '#1877f2' },
+            ig_paid: { name: 'IG Paid', sales: 210, tickets: 7, orders: 1, color: '#f77737' },
+            meta_dark: { name: 'Meta Dark Posts', sales: 390, tickets: 13, orders: 5, color: '#4ade80' }
         };
+
+        let selectedUtms = ['ig_social_link', 'meta_paid_ad', 'ig_paid', 'meta_dark'];
 
         // Gráficos
         const dailyCtx = document.getElementById('dailyChart').getContext('2d');
@@ -262,13 +358,13 @@
         });
 
         const utmCtx = document.getElementById('utmChart').getContext('2d');
-        const utmChart = new Chart(utmCtx, {
+        let utmChart = new Chart(utmCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Instagram Link Bio', 'Meta Paid', 'IG Paid', 'Meta Dark', 'Outros'],
+                labels: selectedUtms.map(u => utmData[u].name),
                 datasets: [{
-                    data: [53450, 870, 210, 390, 0],
-                    backgroundColor: ['#e4405f', '#1877f2', '#f77737', '#4ade80', '#888'],
+                    data: selectedUtms.map(u => utmData[u].sales),
+                    backgroundColor: selectedUtms.map(u => utmData[u].color),
                     borderWidth: 0
                 }]
             },
@@ -280,23 +376,12 @@
             }
         });
 
-        // Função de filtro
+        // Função de filtro de data
         function setFilter(period) {
-            // Atualizar botões ativos
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
-            // Esconder date picker
             document.getElementById('dateRangePicker').classList.remove('active');
             
-            // Atualizar dados
-            const data = allData[period];
-            document.getElementById('totalSales').textContent = '€' + data.sales.toLocaleString();
-            document.getElementById('totalTickets').textContent = data.tickets.toLocaleString();
-            document.getElementById('totalOrders').textContent = data.orders.toLocaleString();
-            document.getElementById('avgTicket').textContent = '€' + data.avg;
-            
-            // Atualizar subtítulo
             const labels = {
                 all: 'Todo o período',
                 last_day: 'Últimas 24 horas',
@@ -314,9 +399,62 @@
             const start = document.getElementById('startDate').value;
             const end = document.getElementById('endDate').value;
             if (start && end) {
-                alert('Filtro aplicado: ' + start + ' até ' + end);
-                // Aqui iria a lógica de filtrar dados reais
+                document.getElementById('salesChange').textContent = start + ' até ' + end;
             }
+        }
+
+        // Função de filtro UTM
+        function updateUtmFilter() {
+            const checkboxes = document.querySelectorAll('.utm-checkbox input[type="checkbox"]');
+            selectedUtms = [];
+            
+            checkboxes.forEach((cb, index) => {
+                const utmKey = ['ig_social_link', 'meta_paid_ad', 'ig_paid', 'meta_dark'][index];
+                const parent = cb.closest('.utm-checkbox');
+                
+                if (cb.checked) {
+                    selectedUtms.push(utmKey);
+                    parent.classList.add('selected');
+                } else {
+                    parent.classList.remove('selected');
+                }
+            });
+            
+            // Atualizar métricas
+            let totalSales = 0, totalTickets = 0, totalOrders = 0;
+            selectedUtms.forEach(utm => {
+                totalSales += utmData[utm].sales;
+                totalTickets += utmData[utm].tickets;
+                totalOrders += utmData[utm].orders;
+            });
+            
+            document.getElementById('totalSales').textContent = '€' + totalSales.toLocaleString();
+            document.getElementById('totalTickets').textContent = totalTickets.toLocaleString();
+            document.getElementById('totalOrders').textContent = totalOrders.toLocaleString();
+            document.getElementById('avgTicket').textContent = '€' + Math.round(totalSales / totalTickets);
+            
+            // Atualizar gráfico UTM
+            utmChart.data.labels = selectedUtms.map(u => utmData[u].name);
+            utmChart.data.datasets[0].data = selectedUtms.map(u => utmData[u].sales);
+            utmChart.data.datasets[0].backgroundColor = selectedUtms.map(u => utmData[u].color);
+            utmChart.update();
+            
+            // Atualizar tabela
+            document.querySelectorAll('#utmTableBody tr').forEach(row => {
+                const utm = row.getAttribute('data-utm');
+                row.style.display = selectedUtms.includes(utm) ? '' : 'none';
+            });
+        }
+
+        function toggleAllUtms() {
+            const checkboxes = document.querySelectorAll('.utm-checkbox input[type="checkbox"]');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            
+            checkboxes.forEach(cb => {
+                cb.checked = !allChecked;
+            });
+            
+            updateUtmFilter();
         }
     </script>
 </body>
