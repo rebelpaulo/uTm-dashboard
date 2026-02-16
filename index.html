@@ -79,6 +79,21 @@
             cursor: pointer;
             transition: all 0.2s;
             border: 2px solid transparent;
+            flex: 1 1 calc(50% - 10px);
+            min-width: 200px;
+        }
+        @media (max-width: 768px) {
+            .utm-checkbox {
+                flex: 1 1 100%;
+                min-width: unset;
+            }
+            h1 { font-size: 1.8rem; }
+            .card .value { font-size: 1.8rem; }
+            .two-columns { grid-template-columns: 1fr; }
+            .filters { flex-direction: column; align-items: stretch; }
+            .filter-btn { width: 100%; text-align: center; }
+            table { font-size: 0.75rem; }
+            th, td { padding: 8px; }
         }
         .utm-checkbox:hover {
             background: rgba(255,255,255,0.15);
@@ -105,9 +120,20 @@
         
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
             margin-bottom: 30px;
+        }
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
         }
         .card {
             background: rgba(255,255,255,0.05);
@@ -149,8 +175,13 @@
         }
         .two-columns {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
         }
         table {
             width: 100%;
