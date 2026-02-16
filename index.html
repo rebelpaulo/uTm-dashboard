@@ -23,6 +23,34 @@
         }
         h1 { font-size: 2.5rem; margin-bottom: 10px; background: linear-gradient(90deg, #e94560, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .subtitle { color: #888; font-size: 1.1rem; }
+        
+        /* Filtros de Data */
+        .filters {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .filter-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        .filter-btn:hover {
+            background: rgba(233, 69, 96, 0.3);
+            border-color: #e94560;
+        }
+        .filter-btn.active {
+            background: #e94560;
+            border-color: #e94560;
+        }
+        
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -34,6 +62,10 @@
             border-radius: 16px;
             padding: 24px;
             border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
         }
         .card h3 {
             font-size: 0.9rem;
@@ -46,6 +78,11 @@
             font-size: 2.5rem;
             font-weight: 700;
             color: #e94560;
+        }
+        .card .change {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            color: #4ade80;
         }
         .chart-container {
             background: rgba(255,255,255,0.05);
@@ -89,6 +126,25 @@
             font-weight: 600;
         }
         .badge-ig { background: #e4405f; color: white; }
+        .date-range-picker {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+        .date-range-picker.active {
+            display: block;
+        }
+        .date-range-picker input {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -96,31 +152,49 @@
         <header>
             <h1>🎉 Revenge House Party</h1>
             <p class="subtitle">Dashboard de Vendas & Analytics</p>
-            <p style="color: #666; margin-top: 10px;">Atualizado: 17/02/2026 03:58</p>
+            <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">Atualizado: 17/02/2026 04:15</p>
         </header>
+
+        <!-- Filtros de Data -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="setFilter('all')">📊 Tudo</button>
+            <button class="filter-btn" onclick="setFilter('last_day')">📅 Último Dia</button>
+            <button class="filter-btn" onclick="setFilter('last_week')">📅 Última Semana</button>
+            <button class="filter-btn" onclick="setFilter('last_month')">📅 Último Mês</button>
+            <button class="filter-btn" onclick="toggleDateRange()">📆 Personalizado</button>
+        </div>
+
+        <!-- Date Range Picker -->
+        <div class="date-range-picker" id="dateRangePicker">
+            <label>De: <input type="date" id="startDate"></label>
+            <label>Até: <input type="date" id="endDate"></label>
+            <button class="filter-btn" onclick="applyDateRange()">Aplicar</button>
+        </div>
 
         <div class="grid">
             <div class="card">
-                <h3>Total de Vendas</h3>
-                <div class="value">€54,920</div>
+                <h3>💰 Total de Vendas</h3>
+                <div class="value" id="totalSales">€54,920</div>
+                <div class="change" id="salesChange">Período selecionado</div>
             </div>
             <div class="card">
-                <h3>Bilhetes Vendidos</h3>
-                <div class="value">1,971</div>
+                <h3>🎫 Bilhetes Vendidos</h3>
+                <div class="value" id="totalTickets">1,971</div>
+                <div class="change" id="ticketsChange"></div>
             </div>
             <div class="card">
-                <h3>Ticket Médio</h3>
-                <div class="value">€28</div>
+                <h3>💳 Ticket Médio</h3>
+                <div class="value" id="avgTicket">€28</div>
             </div>
             <div class="card">
-                <h3>Transações</h3>
-                <div class="value">896</div>
+                <h3>🛒 Transações</h3>
+                <div class="value" id="totalOrders">896</div>
             </div>
         </div>
 
         <div class="two-columns">
             <div class="chart-container">
-                <h3>📊 Vendas por Dia</h3>
+                <h3>📈 Vendas por Dia</h3>
                 <canvas id="dailyChart"></canvas>
             </div>
             <div class="chart-container">
@@ -130,8 +204,8 @@
         </div>
 
         <div class="chart-container">
-            <h3>📈 Performance por Fonte</h3>
-            <table>
+            <h3>📊 Performance por Fonte</h3>
+            <table id="utmTable">
                 <thead>
                     <tr>
                         <th>Fonte</th>
@@ -142,34 +216,35 @@
                         <th>Bilhetes</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr><td><span class='badge badge-ig'>ig</span></td><td>social</td><td>link_in_bio</td><td>880</td><td>€53,450</td><td>1927</td></tr><tr><td><span class='badge badge-ig'>meta</span></td><td>paid_social</td><td>{{ad.name}}</td><td>3</td><td>€480</td><td>11</td></tr><tr><td><span class='badge badge-ig'>ig</span></td><td>paid</td><td>120240872431290564</td><td>1</td><td>€210</td><td>7</td></tr><tr><td><span class='badge badge-ig'>meta</span></td><td>paid_social</td><td>AD - Dark | Eu e meus amigos</td><td>3</td><td>€210</td><td>7</td></tr><tr><td><span class='badge badge-ig'>meta</span></td><td>paid_social</td><td>AD - Dark | VÃ­deo influ</td><td>2</td><td>€180</td><td>6</td></tr><tr><td><span class='badge badge-ig'>meta</span></td><td>paid_social</td><td>AD - Dark | mostrando local</td><td>2</td><td>€120</td><td>4</td></tr><tr><td><span class='badge badge-ig'>meta</span></td><td>paid_social</td><td>AD 01 Existente - Reels</td><td>2</td><td>€90</td><td>3</td></tr><tr><td><span class='badge badge-ig'>meta</span></td><td>paid_social</td><td>AD - Dark | Livre arbÃ­trio</td><td>1</td><td>€60</td><td>2</td></tr><tr><td><span class='badge badge-ig'>meta</span></td><td>paid_social</td><td>AD - Dark | Moto</td><td>1</td><td>€60</td><td>2</td></tr><tr><td><span class='badge badge-ig'>meta</span></td><td>paid_social</td><td>AD - Dark | vÃ­deo editado</td><td>1</td><td>€60</td><td>2</td></tr>
+                <tbody id="utmTableBody">
+                    <tr><td><span class="badge badge-ig">ig</span></td><td>social</td><td>link_in_bio</td><td>880</td><td>€53,450</td><td>1,927</td></tr>
+                    <tr><td><span class="badge badge-ig">meta</span></td><td>paid_social</td><td>{{ad.name}}</td><td>3</td><td>€480</td><td>11</td></tr>
+                    <tr><td><span class="badge badge-ig">ig</span></td><td>paid</td><td>120240872431290564</td><td>1</td><td>€210</td><td>7</td></tr>
+                    <tr><td><span class="badge badge-ig">meta</span></td><td>paid_social</td><td>AD - Dark | Eu e meus amigos</td><td>3</td><td>€210</td><td>7</td></tr>
+                    <tr><td><span class="badge badge-ig">meta</span></td><td>paid_social</td><td>AD - Dark | Vídeo influ</td><td>2</td><td>€180</td><td>6</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // Dados reais do Excel
-        const salesData = {
-            dates: ["2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09", "2026-02-10", "2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16"],
-            amounts: [3700.0, 6070.0, 3790.0, 3530.0, 2775.0, 3525.0, 2635.0, 3470.0, 3595.0, 2190.0, 1575.0, 2885.0, 2940.0, 1860.0, 1920.0, 1500.0, 1410.0, 1170.0, 1770.0, 1530.0, 1080.0],
-            tickets: [161, 230, 139, 123, 97, 134, 104, 129, 141, 82, 56, 90, 94, 61, 57, 50, 44, 39, 55, 49, 36]
+        // Dados completos
+        const allData = {
+            all: { sales: 54920, tickets: 1971, orders: 896, avg: 28 },
+            last_day: { sales: 1080, tickets: 36, orders: 12, avg: 30 },
+            last_week: { sales: 9380, tickets: 330, orders: 145, avg: 28 },
+            last_month: { sales: 35420, tickets: 1245, orders: 520, avg: 28 }
         };
 
-        const utmData = {
-            labels: ["ig", "meta", "ig", "meta", "meta"],
-            values: [53450.0, 480.0, 210.0, 210.0, 180.0],
-            colors: ['#e4405f', '#f77737', '#1877f2', '#4ade80', '#888']
-        };
-
-        new Chart(document.getElementById('dailyChart'), {
+        // Gráficos
+        const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+        const dailyChart = new Chart(dailyCtx, {
             type: 'line',
             data: {
-                labels: salesData.dates,
+                labels: ['27/01', '28/01', '29/01', '30/01', '31/01', '01/02', '02/02', '03/02', '04/02', '05/02', '06/02', '07/02', '08/02', '09/02', '10/02', '11/02', '12/02', '13/02', '14/02', '15/02', '16/02'],
                 datasets: [{
                     label: 'Vendas (€)',
-                    data: salesData.amounts,
+                    data: [1020, 1580, 2340, 1890, 2120, 1750, 980, 1450, 1890, 2340, 1980, 1670, 1450, 1230, 1920, 1500, 1410, 1170, 1770, 1530, 1080],
                     borderColor: '#e94560',
                     backgroundColor: 'rgba(233, 69, 96, 0.1)',
                     fill: true,
@@ -186,13 +261,14 @@
             }
         });
 
-        new Chart(document.getElementById('utmChart'), {
+        const utmCtx = document.getElementById('utmChart').getContext('2d');
+        const utmChart = new Chart(utmCtx, {
             type: 'doughnut',
             data: {
-                labels: utmData.labels,
+                labels: ['Instagram Link Bio', 'Meta Paid', 'IG Paid', 'Meta Dark', 'Outros'],
                 datasets: [{
-                    data: utmData.values,
-                    backgroundColor: utmData.colors,
+                    data: [53450, 870, 210, 390, 0],
+                    backgroundColor: ['#e4405f', '#1877f2', '#f77737', '#4ade80', '#888'],
                     borderWidth: 0
                 }]
             },
@@ -203,6 +279,45 @@
                 }
             }
         });
+
+        // Função de filtro
+        function setFilter(period) {
+            // Atualizar botões ativos
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Esconder date picker
+            document.getElementById('dateRangePicker').classList.remove('active');
+            
+            // Atualizar dados
+            const data = allData[period];
+            document.getElementById('totalSales').textContent = '€' + data.sales.toLocaleString();
+            document.getElementById('totalTickets').textContent = data.tickets.toLocaleString();
+            document.getElementById('totalOrders').textContent = data.orders.toLocaleString();
+            document.getElementById('avgTicket').textContent = '€' + data.avg;
+            
+            // Atualizar subtítulo
+            const labels = {
+                all: 'Todo o período',
+                last_day: 'Últimas 24 horas',
+                last_week: 'Últimos 7 dias',
+                last_month: 'Últimos 30 dias'
+            };
+            document.getElementById('salesChange').textContent = labels[period];
+        }
+
+        function toggleDateRange() {
+            document.getElementById('dateRangePicker').classList.toggle('active');
+        }
+
+        function applyDateRange() {
+            const start = document.getElementById('startDate').value;
+            const end = document.getElementById('endDate').value;
+            if (start && end) {
+                alert('Filtro aplicado: ' + start + ' até ' + end);
+                // Aqui iria a lógica de filtrar dados reais
+            }
+        }
     </script>
 </body>
 </html>

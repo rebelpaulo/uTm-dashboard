@@ -55,6 +55,9 @@ def analyze_sales(filepath):
     campaign_analysis.columns = ['Campaign', 'Revenue', 'Tickets', 'Orders']
     campaign_analysis = campaign_analysis.sort_values('Revenue', ascending=False)
     
+    # Calcular filtros de data
+    filters = calculate_date_filters(df)
+    
     return {
         'summary': {
             'total_sales': float(total_sales),
@@ -62,6 +65,7 @@ def analyze_sales(filepath):
             'total_orders': int(total_orders),
             'avg_ticket': float(avg_ticket)
         },
+        'filters': filters,
         'daily': daily.to_dict('records'),
         'utm': utm_analysis.to_dict('records'),
         'campaigns': campaign_analysis.to_dict('records'),
@@ -147,6 +151,54 @@ def generate_report(data, comparison=None):
     
     return "\n".join(report)
 
+def calculate_date_filters(df):
+    """Calcula métricas para diferentes períodos de tempo"""
+    from datetime import datetime, timedelta
+    
+    now = datetime.now()
+    today = now.date()
+    
+    # Último dia (24h)
+    last_24h = now - timedelta(hours=24)
+    df_last_day = df[df['Payment date (UTC)'] >= last_24h]
+    
+    # Última semana (7 dias)
+    last_week = now - timedelta(days=7)
+    df_last_week = df[df['Payment date (UTC)'] >= last_week]
+    
+    # Último mês (30 dias)
+    last_month = now - timedelta(days=30)
+    df_last_month = df[df['Payment date (UTC)'] >= last_month]
+    
+    filters = {
+        'all': {
+            'sales': float(df['Paid'].sum()),
+            'tickets': int(df['Tickets'].sum()),
+            'orders': len(df),
+            'avg': float(df['Paid'].sum() / df['Tickets'].sum()) if df['Tickets'].sum() > 0 else 0
+        },
+        'last_day': {
+            'sales': float(df_last_day['Paid'].sum()) if len(df_last_day) > 0 else 0,
+            'tickets': int(df_last_day['Tickets'].sum()) if len(df_last_day) > 0 else 0,
+            'orders': len(df_last_day),
+            'avg': float(df_last_day['Paid'].sum() / df_last_day['Tickets'].sum()) if len(df_last_day) > 0 and df_last_day['Tickets'].sum() > 0 else 0
+        },
+        'last_week': {
+            'sales': float(df_last_week['Paid'].sum()) if len(df_last_week) > 0 else 0,
+            'tickets': int(df_last_week['Tickets'].sum()) if len(df_last_week) > 0 else 0,
+            'orders': len(df_last_week),
+            'avg': float(df_last_week['Paid'].sum() / df_last_week['Tickets'].sum()) if len(df_last_week) > 0 and df_last_week['Tickets'].sum() > 0 else 0
+        },
+        'last_month': {
+            'sales': float(df_last_month['Paid'].sum()) if len(df_last_month) > 0 else 0,
+            'tickets': int(df_last_month['Tickets'].sum()) if len(df_last_month) > 0 else 0,
+            'orders': len(df_last_month),
+            'avg': float(df_last_month['Paid'].sum() / df_last_month['Tickets'].sum()) if len(df_last_month) > 0 and df_last_month['Tickets'].sum() > 0 else 0
+        }
+    }
+    
+    return filters
+
 def update_dashboard_html(data, output_path='index.html'):
     """Atualiza o dashboard HTML com dados reais"""
     
@@ -154,6 +206,9 @@ def update_dashboard_html(data, output_path='index.html'):
     daily_dates = [str(d['Date']) for d in data['daily']]
     daily_revenue = [float(d['Revenue']) for d in data['daily']]
     daily_tickets = [int(d['Tickets']) for d in data['daily']]
+    
+    # Dados dos filtros
+    filters = data.get('filters', {})
     
     utm_labels = [f"{u['Source'] or 'Direct'}" for u in data['utm'][:5]]
     utm_values = [float(u['Revenue']) for u in data['utm'][:5]]
