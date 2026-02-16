@@ -242,18 +242,18 @@
     </div>
 
     <script>
-        // Dados reais do Excel - TODAS as 10 UTMs
+        // Todas as 10 UTMs individuais (NÃO agrupadas)
         const utmDefinitions = [
-            { id: 'ig_social_link', name: 'Instagram Link Bio', source: 'ig', content: 'link_in_bio', sales: 53450, tickets: 1927, orders: 880, color: '#e4405f' },
-            { id: 'meta_adname', name: 'Meta Ads', source: 'meta', content: '{{ad.name}}', sales: 480, tickets: 11, orders: 3, color: '#1877f2' },
-            { id: 'ig_paid', name: 'IG Paid', source: 'ig', content: '120240872431290564', sales: 210, tickets: 7, orders: 1, color: '#f77737' },
-            { id: 'meta_dark_amigos', name: 'Meta Dark - Eu e meus amigos', source: 'meta', content: 'AD - Dark | Eu e meus amigos', sales: 210, tickets: 7, orders: 3, color: '#4ade80' },
-            { id: 'meta_dark_video', name: 'Meta Dark - Vídeo influ', source: 'meta', content: 'AD - Dark | Vídeo influ', sales: 180, tickets: 6, orders: 2, color: '#60a5fa' },
-            { id: 'meta_dark_local', name: 'Meta Dark - Mostrando local', source: 'meta', content: 'AD - Dark | mostrando local', sales: 120, tickets: 4, orders: 2, color: '#a78bfa' },
-            { id: 'meta_reels', name: 'Meta - Reels', source: 'meta', content: 'AD 01 Existente - Reels', sales: 90, tickets: 3, orders: 1, color: '#f472b6' },
-            { id: 'meta_dark_livre', name: 'Meta Dark - Livre arbítrio', source: 'meta', content: 'AD - Dark | Livre arbítrio', sales: 60, tickets: 2, orders: 1, color: '#34d399' },
-            { id: 'meta_dark_moto', name: 'Meta Dark - Moto', source: 'meta', content: 'AD - Dark | Moto', sales: 60, tickets: 2, orders: 1, color: '#fbbf24' },
-            { id: 'meta_dark_editado', name: 'Meta Dark - Vídeo editado', source: 'meta', content: 'AD - Dark | vídeo editado', sales: 60, tickets: 2, orders: 1, color: '#f87171' }
+            { id: 'utm1', name: 'Instagram Link Bio', sales: 53450, tickets: 1927, orders: 880, color: '#e4405f' },
+            { id: 'utm2', name: 'Meta Ads - {{ad.name}}', sales: 480, tickets: 11, orders: 3, color: '#1877f2' },
+            { id: 'utm3', name: 'IG Paid', sales: 210, tickets: 7, orders: 1, color: '#f77737' },
+            { id: 'utm4', name: 'Meta Dark - Eu e meus amigos', sales: 210, tickets: 7, orders: 3, color: '#4ade80' },
+            { id: 'utm5', name: 'Meta Dark - Vídeo influ', sales: 180, tickets: 6, orders: 2, color: '#60a5fa' },
+            { id: 'utm6', name: 'Meta Dark - Mostrando local', sales: 120, tickets: 4, orders: 2, color: '#a78bfa' },
+            { id: 'utm7', name: 'Meta - Reels', sales: 90, tickets: 3, orders: 1, color: '#f472b6' },
+            { id: 'utm8', name: 'Meta Dark - Livre arbítrio', sales: 60, tickets: 2, orders: 1, color: '#34d399' },
+            { id: 'utm9', name: 'Meta Dark - Moto', sales: 60, tickets: 2, orders: 1, color: '#fbbf24' },
+            { id: 'utm10', name: 'Meta Dark - Vídeo editado', sales: 60, tickets: 2, orders: 1, color: '#f87171' }
         ];
 
         const periodData = {
@@ -283,7 +283,7 @@
             });
         }
 
-        // Gerar tabela
+        // Gerar tabela com TODAS as UTMs individuais
         function generateTable() {
             const tbody = document.getElementById('utmTableBody');
             tbody.innerHTML = '';
@@ -291,9 +291,15 @@
             utmDefinitions.forEach(utm => {
                 const row = tbody.insertRow();
                 row.setAttribute('data-utm', utm.id);
+                
+                // Determinar source badge
+                const isInstagram = utm.name.toLowerCase().includes('instagram') || utm.name.toLowerCase().includes('ig ');
+                const badgeClass = isInstagram ? 'badge-ig' : 'badge-meta';
+                const source = isInstagram ? 'ig' : 'meta';
+                
                 row.innerHTML = `
-                    <td><span class="badge ${utm.source === 'ig' ? 'badge-ig' : 'badge-meta'}">${utm.source}</span></td>
-                    <td>${utm.content}</td>
+                    <td><span class="badge ${badgeClass}">${source}</span></td>
+                    <td>${utm.name}</td>
                     <td>${utm.orders}</td>
                     <td>€${utm.sales.toLocaleString()}</td>
                     <td>${utm.tickets}</td>
