@@ -328,10 +328,13 @@
             updateChart();
         }
 
-        // Gráfico UTM
+        // Gráfico UTM - com altura fixa para mobile
         let utmChart;
         function initChart() {
             const ctx = document.getElementById('utmChart').getContext('2d');
+            const canvas = document.getElementById('utmChart');
+            canvas.style.height = '300px';
+            
             utmChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -344,7 +347,18 @@
                 },
                 options: {
                     responsive: true,
-                    plugins: { legend: { position: 'bottom', labels: { color: '#fff', padding: 20, font: { size: 10 } } } }
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { 
+                            position: 'bottom', 
+                            labels: { 
+                                color: '#fff', 
+                                padding: 10, 
+                                font: { size: 10 },
+                                boxWidth: 12
+                            } 
+                        } 
+                    }
                 }
             });
         }
@@ -423,33 +437,40 @@
             updateUtmFilter();
         }
 
-        // Inicializar
-        generateUtmCheckboxes();
-        generateTable();
-        initChart();
-        calculateMetrics();
-
-        // Gráfico diário
-        new Chart(document.getElementById('dailyChart'), {
-            type: 'line',
-            data: {
-                labels: ['27/01', '28/01', '29/01', '30/01', '31/01', '01/02', '02/02', '03/02', '04/02', '05/02', '06/02', '07/02', '08/02', '09/02', '10/02', '11/02', '12/02', '13/02', '14/02', '15/02', '16/02'],
-                datasets: [{
-                    label: 'Vendas (€)',
-                    data: [1020, 1580, 2340, 1890, 2120, 1750, 980, 1450, 1890, 2340, 1980, 1670, 1450, 1230, 1920, 1500, 1410, 1170, 1770, 1530, 930],
-                    borderColor: '#e94560',
-                    backgroundColor: 'rgba(233, 69, 96, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { labels: { color: '#fff' } } },
-                scales: {
-                    x: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-                    y: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,0.1)' } }
-                }
+        // Inicializar quando DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                generateUtmCheckboxes();
+                generateTable();
+                initChart();
+                calculateMetrics();
+                
+                // Gráfico diário
+                new Chart(document.getElementById('dailyChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['27/01', '28/01', '29/01', '30/01', '31/01', '01/02', '02/02', '03/02', '04/02', '05/02', '06/02', '07/02', '08/02', '09/02', '10/02', '11/02', '12/02', '13/02', '14/02', '15/02', '16/02'],
+                        datasets: [{
+                            label: 'Vendas (€)',
+                            data: [1020, 1580, 2340, 1890, 2120, 1750, 980, 1450, 1890, 2340, 1980, 1670, 1450, 1230, 1920, 1500, 1410, 1170, 1770, 1530, 930],
+                            borderColor: '#e94560',
+                            backgroundColor: 'rgba(233, 69, 96, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: '#fff' } } },
+                        scales: {
+                            x: { ticks: { color: '#888', maxRotation: 45 }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                            y: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('Erro ao inicializar:', e);
             }
         });
     </script>
