@@ -10,10 +10,13 @@ from datetime import datetime, timedelta
 import sys
 
 def analyze_sales(filepath):
-    """Analisa o ficheiro Excel de vendas"""
+    """Analisa o ficheiro de vendas (Excel ou CSV)"""
     
-    # Ler o Excel
-    df = pd.read_excel(filepath)
+    # Detectar formato e ler o ficheiro
+    if filepath.endswith('.csv'):
+        df = pd.read_csv(filepath, sep=';')
+    else:
+        df = pd.read_excel(filepath)
     
     # Limpar nomes de colunas (remover BOM se existir)
     df.columns = [col.replace('ï»¿', '') for col in df.columns]
