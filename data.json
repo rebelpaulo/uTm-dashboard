@@ -1,16 +1,16 @@
 {
   "summary": {
-    "total_sales": 55640.0,
-    "total_tickets": 1995,
-    "total_orders": 905,
-    "avg_ticket": 27.88972431077694
+    "total_sales": 56420.0,
+    "total_tickets": 2019,
+    "total_orders": 919,
+    "avg_ticket": 27.94452699356117
   },
   "filters": {
     "all": {
-      "sales": 55640.0,
-      "tickets": 1995,
-      "orders": 905,
-      "avg": 27.88972431077694,
+      "sales": 56420.0,
+      "tickets": 2019,
+      "orders": 919,
+      "avg": 27.94452699356117,
       "utm": {
         "ig_paid_120240872431290564": {
           "name": "ig - 120240872431290564",
@@ -20,15 +20,15 @@
         },
         "ig_social_link_in_bio": {
           "name": "ig - link_in_bio",
-          "sales": 54110.0,
-          "tickets": 1949,
-          "orders": 888
+          "sales": 54680.0,
+          "tickets": 1966,
+          "orders": 898
         },
         "meta_paid_social_AD_-_Dark_|_Eu_e_meus_amigos": {
           "name": "meta - AD - Dark | Eu e meus amigos",
-          "sales": 210.0,
-          "tickets": 7,
-          "orders": 3
+          "sales": 270.0,
+          "tickets": 9,
+          "orders": 4
         },
         "meta_paid_social_AD_-_Dark_|_Livre_arbítrio": {
           "name": "meta - AD - Dark | Livre arbítrio",
@@ -66,57 +66,69 @@
           "tickets": 3,
           "orders": 2
         },
+        "meta_paid_social_AD_02_Existente_-_Reels": {
+          "name": "meta - AD 02 Existente - Reels",
+          "sales": 90.0,
+          "tickets": 3,
+          "orders": 2
+        },
         "meta_paid_social_ad.name": {
           "name": "meta - {{ad.name}}",
-          "sales": 540.0,
-          "tickets": 13,
-          "orders": 4
+          "sales": 600.0,
+          "tickets": 15,
+          "orders": 5
         }
       }
     },
     "last_day": {
-      "sales": 720.0,
-      "tickets": 24,
-      "orders": 9,
-      "avg": 30.0,
+      "sales": 1350.0,
+      "tickets": 43,
+      "orders": 21,
+      "avg": 31.3953488372093,
       "utm": {
         "ig_social_link_in_bio": {
           "name": "ig - link_in_bio",
-          "sales": 660.0,
-          "tickets": 22,
-          "orders": 8
+          "sales": 1080.0,
+          "tickets": 34,
+          "orders": 16
         },
-        "meta_paid_social_ad.name": {
-          "name": "meta - {{ad.name}}",
+        "meta_paid_social_AD_-_Dark_|_Eu_e_meus_amigos": {
+          "name": "meta - AD - Dark | Eu e meus amigos",
           "sales": 60.0,
           "tickets": 2,
           "orders": 1
+        },
+        "meta_paid_social_AD_02_Existente_-_Reels": {
+          "name": "meta - AD 02 Existente - Reels",
+          "sales": 90.0,
+          "tickets": 3,
+          "orders": 2
+        },
+        "meta_paid_social_ad.name": {
+          "name": "meta - {{ad.name}}",
+          "sales": 120.0,
+          "tickets": 4,
+          "orders": 2
         }
       }
     },
     "last_week": {
-      "sales": 10140.0,
-      "tickets": 322,
-      "orders": 149,
-      "avg": 31.490683229813666,
+      "sales": 10350.0,
+      "tickets": 329,
+      "orders": 158,
+      "avg": 31.458966565349545,
       "utm": {
-        "ig_paid_120240872431290564": {
-          "name": "ig - 120240872431290564",
-          "sales": 210.0,
-          "tickets": 7,
-          "orders": 1
-        },
         "ig_social_link_in_bio": {
           "name": "ig - link_in_bio",
-          "sales": 8610.0,
-          "tickets": 276,
-          "orders": 132
+          "sales": 8820.0,
+          "tickets": 283,
+          "orders": 138
         },
         "meta_paid_social_AD_-_Dark_|_Eu_e_meus_amigos": {
           "name": "meta - AD - Dark | Eu e meus amigos",
-          "sales": 210.0,
-          "tickets": 7,
-          "orders": 3
+          "sales": 270.0,
+          "tickets": 9,
+          "orders": 4
         },
         "meta_paid_social_AD_-_Dark_|_Livre_arbítrio": {
           "name": "meta - AD - Dark | Livre arbítrio",
@@ -154,19 +166,25 @@
           "tickets": 3,
           "orders": 2
         },
+        "meta_paid_social_AD_02_Existente_-_Reels": {
+          "name": "meta - AD 02 Existente - Reels",
+          "sales": 90.0,
+          "tickets": 3,
+          "orders": 2
+        },
         "meta_paid_social_ad.name": {
           "name": "meta - {{ad.name}}",
-          "sales": 540.0,
-          "tickets": 13,
-          "orders": 4
+          "sales": 600.0,
+          "tickets": 15,
+          "orders": 5
         }
       }
     },
     "last_month": {
-      "sales": 55640.0,
-      "tickets": 1995,
-      "orders": 905,
-      "avg": 27.88972431077694,
+      "sales": 56420.0,
+      "tickets": 2019,
+      "orders": 919,
+      "avg": 27.94452699356117,
       "utm": {
         "ig_paid_120240872431290564": {
           "name": "ig - 120240872431290564",
@@ -176,15 +194,15 @@
         },
         "ig_social_link_in_bio": {
           "name": "ig - link_in_bio",
-          "sales": 54110.0,
-          "tickets": 1949,
-          "orders": 888
+          "sales": 54680.0,
+          "tickets": 1966,
+          "orders": 898
         },
         "meta_paid_social_AD_-_Dark_|_Eu_e_meus_amigos": {
           "name": "meta - AD - Dark | Eu e meus amigos",
-          "sales": 210.0,
-          "tickets": 7,
-          "orders": 3
+          "sales": 270.0,
+          "tickets": 9,
+          "orders": 4
         },
         "meta_paid_social_AD_-_Dark_|_Livre_arbítrio": {
           "name": "meta - AD - Dark | Livre arbítrio",
@@ -222,11 +240,17 @@
           "tickets": 3,
           "orders": 2
         },
+        "meta_paid_social_AD_02_Existente_-_Reels": {
+          "name": "meta - AD 02 Existente - Reels",
+          "sales": 90.0,
+          "tickets": 3,
+          "orders": 2
+        },
         "meta_paid_social_ad.name": {
           "name": "meta - {{ad.name}}",
-          "sales": 540.0,
-          "tickets": 13,
-          "orders": 4
+          "sales": 600.0,
+          "tickets": 15,
+          "orders": 5
         }
       }
     }
@@ -360,9 +384,9 @@
     },
     {
       "Date": "2026-02-17",
-      "Revenue": 90.0,
-      "Tickets": 3,
-      "Orders": 2
+      "Revenue": 870.0,
+      "Tickets": 27,
+      "Orders": 16
     }
   ],
   "utm": [
@@ -370,16 +394,24 @@
       "Source": "ig",
       "Medium": "social",
       "Content": "link_in_bio",
-      "Revenue": 54110.0,
-      "Tickets": 1949,
-      "Orders": 888
+      "Revenue": 54680.0,
+      "Tickets": 1966,
+      "Orders": 898
     },
     {
       "Source": "meta",
       "Medium": "paid_social",
       "Content": "{{ad.name}}",
-      "Revenue": 540.0,
-      "Tickets": 13,
+      "Revenue": 600.0,
+      "Tickets": 15,
+      "Orders": 5
+    },
+    {
+      "Source": "meta",
+      "Medium": "paid_social",
+      "Content": "AD - Dark | Eu e meus amigos",
+      "Revenue": 270.0,
+      "Tickets": 9,
       "Orders": 4
     },
     {
@@ -389,14 +421,6 @@
       "Revenue": 210.0,
       "Tickets": 7,
       "Orders": 1
-    },
-    {
-      "Source": "meta",
-      "Medium": "paid_social",
-      "Content": "AD - Dark | Eu e meus amigos",
-      "Revenue": 210.0,
-      "Tickets": 7,
-      "Orders": 3
     },
     {
       "Source": "meta",
@@ -425,7 +449,15 @@
     {
       "Source": "meta",
       "Medium": "paid_social",
-      "Content": "AD - Dark | Livre arbítrio",
+      "Content": "AD 02 Existente - Reels",
+      "Revenue": 90.0,
+      "Tickets": 3,
+      "Orders": 2
+    },
+    {
+      "Source": "meta",
+      "Medium": "paid_social",
+      "Content": "AD - Dark | Moto",
       "Revenue": 60.0,
       "Tickets": 2,
       "Orders": 1
@@ -433,7 +465,7 @@
     {
       "Source": "meta",
       "Medium": "paid_social",
-      "Content": "AD - Dark | Moto",
+      "Content": "AD - Dark | Livre arbítrio",
       "Revenue": 60.0,
       "Tickets": 2,
       "Orders": 1
@@ -14926,6 +14958,230 @@
       "utm_id": "{{campaign.id}}",
       "utm_content": "{{ad.name}}",
       "utm_term": "{{adset.name}}",
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700811,
+      "Total": 60,
+      "Discounts": 0,
+      "Paid": 60.0,
+      "Payment date (UTC)": "2026-02-17 02:24:47",
+      "Tickets": 2,
+      "utm_source": "meta",
+      "utm_medium": "paid_social",
+      "utm_campaign": "[ABO] [VENDAS] [Purchase] - 21 de Março",
+      "utm_id": "120240595260420564",
+      "utm_content": "AD - Dark | Eu e meus amigos",
+      "utm_term": "[ADV+] [30/45Anos] [Lisboa 40km]",
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700893,
+      "Total": 60,
+      "Discounts": 0,
+      "Paid": 60.0,
+      "Payment date (UTC)": "2026-02-17 07:29:10",
+      "Tickets": 2,
+      "utm_source": "ig",
+      "utm_medium": "social",
+      "utm_campaign": NaN,
+      "utm_id": NaN,
+      "utm_content": "link_in_bio",
+      "utm_term": NaN,
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700898,
+      "Total": 120,
+      "Discounts": 0,
+      "Paid": 120.0,
+      "Payment date (UTC)": "2026-02-17 07:57:00",
+      "Tickets": 2,
+      "utm_source": "ig",
+      "utm_medium": "social",
+      "utm_campaign": NaN,
+      "utm_id": NaN,
+      "utm_content": "link_in_bio",
+      "utm_term": NaN,
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700911,
+      "Total": 30,
+      "Discounts": 0,
+      "Paid": 30.0,
+      "Payment date (UTC)": "2026-02-17 09:04:09",
+      "Tickets": 1,
+      "utm_source": "ig",
+      "utm_medium": "social",
+      "utm_campaign": NaN,
+      "utm_id": NaN,
+      "utm_content": "link_in_bio",
+      "utm_term": NaN,
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700934,
+      "Total": 30,
+      "Discounts": 0,
+      "Paid": 30.0,
+      "Payment date (UTC)": "2026-02-17 10:03:14",
+      "Tickets": 1,
+      "utm_source": "ig",
+      "utm_medium": "social",
+      "utm_campaign": NaN,
+      "utm_id": NaN,
+      "utm_content": "link_in_bio",
+      "utm_term": NaN,
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700942,
+      "Total": 30,
+      "Discounts": 0,
+      "Paid": 30.0,
+      "Payment date (UTC)": "2026-02-17 10:13:54",
+      "Tickets": 1,
+      "utm_source": "ig",
+      "utm_medium": "social",
+      "utm_campaign": NaN,
+      "utm_id": NaN,
+      "utm_content": "link_in_bio",
+      "utm_term": NaN,
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700964,
+      "Total": 30,
+      "Discounts": 0,
+      "Paid": 30.0,
+      "Payment date (UTC)": "2026-02-17 10:45:48",
+      "Tickets": 1,
+      "utm_source": "ig",
+      "utm_medium": "social",
+      "utm_campaign": NaN,
+      "utm_id": NaN,
+      "utm_content": "link_in_bio",
+      "utm_term": NaN,
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700971,
+      "Total": 30,
+      "Discounts": 0,
+      "Paid": 30.0,
+      "Payment date (UTC)": "2026-02-17 11:04:11",
+      "Tickets": 1,
+      "utm_source": "ig",
+      "utm_medium": "social",
+      "utm_campaign": NaN,
+      "utm_id": NaN,
+      "utm_content": "link_in_bio",
+      "utm_term": NaN,
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700978,
+      "Total": 30,
+      "Discounts": 0,
+      "Paid": 30.0,
+      "Payment date (UTC)": "2026-02-17 11:13:40",
+      "Tickets": 1,
+      "utm_source": "meta",
+      "utm_medium": "paid_social",
+      "utm_campaign": "[ABO] [VENDAS] [Purchase] - 21 de Março",
+      "utm_id": "120240595260420564",
+      "utm_content": "AD 02 Existente - Reels",
+      "utm_term": "[ADV+] [Cultura Pop]  [30/45Anos] [Lisboa 40km]",
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700988,
+      "Total": 180,
+      "Discounts": 0,
+      "Paid": 180.0,
+      "Payment date (UTC)": "2026-02-17 11:24:35",
+      "Tickets": 6,
+      "utm_source": "ig",
+      "utm_medium": "social",
+      "utm_campaign": NaN,
+      "utm_id": NaN,
+      "utm_content": "link_in_bio",
+      "utm_term": NaN,
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1700991,
+      "Total": 60,
+      "Discounts": 0,
+      "Paid": 60.0,
+      "Payment date (UTC)": "2026-02-17 11:36:15",
+      "Tickets": 2,
+      "utm_source": "meta",
+      "utm_medium": "paid_social",
+      "utm_campaign": "{{campaign.name}}",
+      "utm_id": "{{campaign.id}}",
+      "utm_content": "{{ad.name}}",
+      "utm_term": "{{adset.name}}",
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1701014,
+      "Total": 60,
+      "Discounts": 0,
+      "Paid": 60.0,
+      "Payment date (UTC)": "2026-02-17 11:59:34",
+      "Tickets": 2,
+      "utm_source": "meta",
+      "utm_medium": "paid_social",
+      "utm_campaign": "[ABO] [VENDAS] [Purchase] - 21 de Março",
+      "utm_id": "120240595260420564",
+      "utm_content": "AD 02 Existente - Reels",
+      "utm_term": "[ADV+] [Cultura Pop]  [30/45Anos] [Lisboa 40km]",
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1701086,
+      "Total": 30,
+      "Discounts": 0,
+      "Paid": 30.0,
+      "Payment date (UTC)": "2026-02-17 13:21:07",
+      "Tickets": 1,
+      "utm_source": "ig",
+      "utm_medium": "social",
+      "utm_campaign": NaN,
+      "utm_id": NaN,
+      "utm_content": "link_in_bio",
+      "utm_term": NaN,
+      "Date": "2026-02-17"
+    },
+    {
+      "Event": "Revenge of the 90's House Party Edition",
+      "Order #": 1701103,
+      "Total": 30,
+      "Discounts": 0,
+      "Paid": 30.0,
+      "Payment date (UTC)": "2026-02-17 13:46:33",
+      "Tickets": 1,
+      "utm_source": "ig",
+      "utm_medium": "social",
+      "utm_campaign": NaN,
+      "utm_id": NaN,
+      "utm_content": "link_in_bio",
+      "utm_term": NaN,
       "Date": "2026-02-17"
     }
   ]
