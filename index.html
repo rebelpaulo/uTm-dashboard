@@ -116,14 +116,27 @@
         @media (max-width: 768px) { .card .value { font-size: 1.8rem; } }
         .card .change { font-size: 0.85rem; margin-top: 8px; color: #4ade80; }
         
-        .chart-container {
+                .chart-container {
             background: rgba(255,255,255,0.05);
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 20px;
             border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            min-height: 300px;
         }
         .chart-container h3 { margin-bottom: 20px; font-size: 1.2rem; }
+        .chart-container canvas {
+            max-height: 300px !important;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                min-height: 250px;
+            }
+            .chart-container canvas {
+                max-height: 250px !important;
+            }
+        }
         
         .two-columns {
             display: grid;
@@ -378,9 +391,6 @@
         let utmChart;
         function initChart() {
             const ctx = document.getElementById('utmChart').getContext('2d');
-            const canvas = document.getElementById('utmChart');
-            canvas.style.height = '200px';
-            canvas.style.maxHeight = '200px';
             
             utmChart = new Chart(ctx, {
                 type: 'doughnut',
@@ -394,7 +404,8 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
+                    maintainAspectRatio: true,
+                    aspectRatio: 2,
                     plugins: { 
                         legend: { 
                             display: false
@@ -502,7 +513,8 @@
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: false,
+                        maintainAspectRatio: true,
+                        aspectRatio: 2,
                         plugins: { legend: { labels: { color: '#fff' } } },
                         scales: {
                             x: { ticks: { color: '#888', maxRotation: 45 }, grid: { color: 'rgba(255,255,255,0.1)' } },
