@@ -75,30 +75,30 @@
       }
     },
     "last_day": {
-      "sales": 1650.0,
-      "tickets": 55,
-      "orders": 23,
+      "sales": 720.0,
+      "tickets": 24,
+      "orders": 9,
       "avg": 30.0,
       "utm": {
         "ig_social_link_in_bio": {
           "name": "ig - link_in_bio",
-          "sales": 1500.0,
-          "tickets": 50,
-          "orders": 21
+          "sales": 660.0,
+          "tickets": 22,
+          "orders": 8
         },
         "meta_paid_social_ad.name": {
           "name": "meta - {{ad.name}}",
-          "sales": 150.0,
-          "tickets": 5,
-          "orders": 2
+          "sales": 60.0,
+          "tickets": 2,
+          "orders": 1
         }
       }
     },
     "last_week": {
-      "sales": 10710.0,
-      "tickets": 341,
-      "orders": 160,
-      "avg": 31.407624633431084,
+      "sales": 10140.0,
+      "tickets": 322,
+      "orders": 149,
+      "avg": 31.490683229813666,
       "utm": {
         "ig_paid_120240872431290564": {
           "name": "ig - 120240872431290564",
@@ -108,9 +108,9 @@
         },
         "ig_social_link_in_bio": {
           "name": "ig - link_in_bio",
-          "sales": 9180.0,
-          "tickets": 295,
-          "orders": 143
+          "sales": 8610.0,
+          "tickets": 276,
+          "orders": 132
         },
         "meta_paid_social_AD_-_Dark_|_Eu_e_meus_amigos": {
           "name": "meta - AD - Dark | Eu e meus amigos",
