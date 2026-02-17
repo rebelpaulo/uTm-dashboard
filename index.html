@@ -238,10 +238,50 @@
                 </thead>
                 <tbody id="utmTableBody"></tbody>
             </table>
-        </div>
+        </div㸮
+    </div>
+
+    <!-- Seção Antfarm -->
+    <div class="chart-container" id="antfarmSection" style="margin-top: 30px;">
+        <h3>🐜 Antfarm Workflows</h3>
+        <div id="antfarmStatus">A carregar...</div>
+        <div id="antfarmRuns" style="margin-top: 15px;"></div>
     </div>
 
     <script>
+        // Carregar dados do Antfarm do GitHub
+        async function loadAntfarmData() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/rebelpaulo/uTm-dashboard/master/antfarm-data.json');
+                const data = await response.json();
+                
+                const statusDiv = document.getElementById('antfarmStatus');
+                const runsDiv = document.getElementById('antfarmRuns');
+                
+                statusDiv.innerHTML = `
+                    <p>📅 Última atualização: ${new Date(data.updated_at).toLocaleString('pt-PT')}</p>
+                    <p>✅ Status: ${data.status}</p>
+                `;
+                
+                if (data.runs && data.runs.length > 0) {
+                    runsDiv.innerHTML = '<h4>Runs Recentes:</h4>' + 
+                        data.runs.map(run => `
+                            <div style="background: rgba(255,255,255,0.05); padding: 10px; margin: 5px 0; border-radius: 8px;">
+                                <strong>${run.workflow}</strong> - ${run.status}
+                                <br><small>${run.task || 'Sem descrição'}</small>
+                            </div>
+                        `).join('');
+                } else {
+                    runsDiv.innerHTML = '<p>Sem runs ativos. Cria um workflow com: <code>antfarm workflow run feature-dev "sua tarefa"</code></p>';
+                }
+            } catch (e) {
+                document.getElementById('antfarmStatus').innerHTML = '<p>⚠️ Dados do Antfarm não disponíveis</p>';
+            }
+        }
+        
+        // Carregar quando a página iniciar
+        loadAntfarmData();
+
         // Todas as 10 UTMs individuais (NÃO agrupadas)
         const utmDefinitions = [
             { id: 'utm1', name: 'Instagram Link Bio', sales: 53450, tickets: 1927, orders: 880, color: '#e4405f' },
@@ -339,7 +379,8 @@
         function initChart() {
             const ctx = document.getElementById('utmChart').getContext('2d');
             const canvas = document.getElementById('utmChart');
-            canvas.style.height = '300px';
+            canvas.style.height = '250px';
+            canvas.style.maxHeight = '250px';
             
             utmChart = new Chart(ctx, {
                 type: 'doughnut',
@@ -356,13 +397,7 @@
                     maintainAspectRatio: false,
                     plugins: { 
                         legend: { 
-                            position: 'bottom', 
-                            labels: { 
-                                color: '#fff', 
-                                padding: 10, 
-                                font: { size: 10 },
-                                boxWidth: 12
-                            } 
+                            display: false
                         } 
                     }
                 }
